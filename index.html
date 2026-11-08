@@ -205,29 +205,27 @@
     </footer>
 
     <!-- JAVASCRIPT LOGIKA (ZÁLOŽKY A ODESÍLÁNÍ) -->
-    <script>
-        const scriptURL = "https://script.google.com/macros/s/AKfycbxKsh9SvkhUPpDdpsTTgs-gEOp1f1el8v6bIpccPH8i-z1ZY8650FH6lCvV2drPvg/exec";
+<script>
+        // Adresa pro RSVP formulář (vedoucí do Google Tabulky)
+        const rsvpScriptURL = "https://script.google.com/macros/s/AKfycbxKsh9SvkhUPpDdpsTTgs-gEOp1f1el8v6bIpccPH8i-z1ZY8650FH6lCvV2drPvg/exec";
+
+        // Adresa pro fotky (vedoucí PŘÍMO do Google Drive složky)
+        const photoScriptURL = "https://script.google.com/macros/s/AKfycbywQh8y3V8GkRWlZHO5EeVJ8gcvXZrjZ8hPyItaLe8PUvmLggaH1tRbeIzsjLWeAIs/exec";
 
         // Přepínání záložek
         function switchTab(tabId) {
-            // Skrýt všechny obsahy
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            // Zobrazit vybraný obsah
             document.getElementById('tab-' + tabId).classList.remove('hidden');
 
-            // Reset stylu tlačítek
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.className = "tab-btn px-5 py-2 rounded-full text-sm font-medium transition duration-200 bg-vinovaDark/60 text-korekLight hover:bg-vinovaDark";
             });
-            // Zvýraznit aktivní tlačítko
-            const activeBtn = document.getElementById('btn-' + tabId);
-            activeBtn.className = "tab-btn px-5 py-2 rounded-full text-sm font-medium transition duration-200 bg-stonka text-white shadow";
+            document.getElementById('btn-' + tabId).className = "tab-btn px-5 py-2 rounded-full text-sm font-medium transition duration-200 bg-stonka text-white shadow";
             
-            // Posunout nahoru na začátek
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // 1. Odesílání RSVP formuláře
+        // 1. Odesílání RSVP formuláře (do tabulky)
         const rsvpForm = document.getElementById('rsvpForm');
         const submitBtn = document.getElementById('submitBtn');
         const formStatus = document.getElementById('formStatus');
@@ -241,7 +239,7 @@
                 
                 const formData = new URLSearchParams(new FormData(rsvpForm));
 
-                fetch(scriptURL, {
+                fetch(rsvpScriptURL, {
                     method: 'POST',
                     mode: 'no-cors',
                     body: formData
@@ -263,8 +261,7 @@
             });
         }
 
-        // 2. Odesílání fotek na Google Drive
-// 2. Odesílání fotek na Google Drive
+        // 2. Odesílání fotek (PŘÍMO na Google Drive složku)
         const photoForm = document.getElementById('photoForm');
         const photoSubmitBtn = document.getElementById('photoSubmitBtn');
         const photoStatus = document.getElementById('photoStatus');
@@ -290,11 +287,9 @@
                     photoStatus.textContent = `Nahrávám soubor ${i + 1} z ${files.length} (${file.name})...`;
 
                     try {
-                        // Převedení souboru na Base64
                         const base64Data = await toBase64(file);
-                        const base64Clean = base64Data.split(',')[1]; // Oříznutí hlavičky data URL
+                        const base64Clean = base64Data.split(',')[1];
 
-                        // Vytvoření JSON balíčku místo URLSearchParams
                         const payload = {
                             fileData: base64Clean,
                             fileName: file.name,
@@ -302,7 +297,7 @@
                             uploaderName: uploaderName
                         };
 
-                        await fetch(scriptURL, {
+                        await fetch(photoScriptURL, {
                             method: 'POST',
                             mode: 'no-cors',
                             body: JSON.stringify(payload)
@@ -320,7 +315,7 @@
                 photoForm.reset();
             });
         }
-        // Pomocná funkce pro převod souboru na Base64
+
         function toBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
