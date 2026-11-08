@@ -32,9 +32,12 @@
 
     <!-- HLAVIČKA / HERO SEKCE -->
     <header class="relative bg-vinova text-white py-24 px-6 text-center shadow-md border-b-4 border-stonka">
-        <div class="max-w-3xl mx-auto">
+        <div class="max-w-4xl mx-auto">
             <p class="text-korek uppercase tracking-widest text-sm mb-3 font-medium">Řeknou si své „Ano“</p>
-            <h1 class="font-serif text-4xl md:text-6xl font-light mb-6 tracking-wide">Anna Jakšová <span class="text-stonkaLight">&amp;</span> Otakar Valenta</h1>
+            <!-- Zajištění, že jména zůstanou na jednom řádku (whitespace-nowrap) a úprava velikosti pro lepší vzhled -->
+            <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl font-light mb-6 tracking-wide whitespace-nowrap overflow-x-auto py-2">
+                Anna Jakšová <span class="text-stonkaLight">&amp;</span> Otakar Valenta
+            </h1>
             <div class="w-20 h-[2px] bg-stonkaLight mx-auto mb-6"></div>
             <p class="text-lg md:text-xl font-light text-korekLight/90">23. září 2027 • Penzion Kůlna, Jedovnice</p>
         </div>
@@ -121,7 +124,7 @@
 
     <!-- JAVASCRIPT PRO ODESÍLÁNÍ DO GOOGLE SHEETS -->
     <script>
-        const scriptURL = "https://script.google.com/macros/s/AKfycbxKsh9SvkhUPpDdpsTTgs-gEOp1f1el8v6bIpccPH8i-z1ZY8650FH6lCvV2drPvg/exec"; // ZDE VLOŽ SVOU URL Z APPS SCRIPTU
+        const scriptURL = "https://script.google.com/macros/s/AKfycbxKsh9SvkhUPpDdpsTTgs-gEOp1f1el8v6bIpccPH8i-z1ZY8650FH6lCvV2drPvg/exec";
         const form = document.getElementById('rsvpForm');
         const submitBtn = document.getElementById('submitBtn');
         const formStatus = document.getElementById('formStatus');
